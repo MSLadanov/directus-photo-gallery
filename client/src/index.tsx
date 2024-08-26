@@ -6,15 +6,29 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
+import ErrorRoute from './components/ErrorRoute/ErrorRoute';
+import Albums from './components/Albums/Albums';
+import Album from './components/Album/Album';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App/>,
+    errorElement: <ErrorRoute />,
     children:[
       {
-        path:''
-      }
+        path: "/",
+        element: <Navigate to="/albums" />,
+      },
+      {
+        path:'albums/',
+        element: <Albums />
+      },
+      {
+        path:'albums/:albumId',
+        element: <Album />
+      },
     ]
   },
 ]);

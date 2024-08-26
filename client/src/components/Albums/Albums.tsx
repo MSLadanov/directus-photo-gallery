@@ -5,3 +5,5 @@ function Albums() {
         </div>
     )
 }
+
+export default Albums
