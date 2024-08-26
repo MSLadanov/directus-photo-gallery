@@ -7,9 +7,12 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { Navigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ErrorRoute from './components/ErrorRoute/ErrorRoute';
 import Albums from './components/Albums/Albums';
 import Album from './components/Album/Album';
+
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
@@ -38,7 +41,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
