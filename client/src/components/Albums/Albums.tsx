@@ -14,7 +14,6 @@ const AlbumCard = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     text-align: center;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -70,7 +69,7 @@ function Albums() {
             {albums.data?.map((album: Album) => (
                 <Link to={`${path}/${album.id}`} key={album.id}>
                     <AlbumCard>
-                        <AlbumImage src={albumImg} alt={album.title} />
+                        <AlbumImage src={albumImg} />
                         <AlbumTitle>{album.title}</AlbumTitle>
                     </AlbumCard>
                 </Link>
