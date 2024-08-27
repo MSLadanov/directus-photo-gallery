@@ -54,7 +54,9 @@ function useModal(){
         return ReactDOM.createPortal(
           <ModalOverlay>
             <ModalContent>
-              {content}
+                <Card onClick={openModal}>
+                  <Image src={content} alt="Photo" />
+                </Card>
               <CloseButton onClick={onClose}>Close</CloseButton>
             </ModalContent>
           </ModalOverlay>,
@@ -69,9 +71,6 @@ function useModal(){
         if (!isModalOpen) return null;
         return (
           <div>
-            <Card onClick={openModal}>
-              <Image src="path_to_your_image.jpg" alt="Photo" />
-            </Card>
             {isModalOpen && <PhotoModal onClose={closeModal} />}
           </div>
         )

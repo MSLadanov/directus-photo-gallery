@@ -76,7 +76,7 @@ function Album() {
         <>
             <GridContainer>
                 {photos.data?.map((photo : Photo) => (
-                    <PhotoCard onClick={() => toggleModal('Hey!')} key={photo.id}>
+                    <PhotoCard onClick={() => toggleModal(photo.url)} key={photo.id}>
                         <PhotoImage src={photo.url} />
                         <PhotoTitle>{photo.title}</PhotoTitle>
                     </PhotoCard>
