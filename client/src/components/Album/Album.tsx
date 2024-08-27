@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import styled from "styled-components"
 import Photo from "../hooks/useModal"
@@ -11,6 +11,7 @@ const GridContainer = styled.div`
     gap: 16px;
     padding: 16px;
 `
+
 const PhotoCard = styled.div`
     display: flex;
     flex-direction: column;
@@ -35,9 +36,36 @@ const PhotoImage = styled.img`
     object-fit: cover; 
     border-radius: 4px;
 `
+
 const PhotoTitle = styled.p`
     margin: 16px 0 0; 
 `
+
+const Pagination = styled.div`
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+    
+    button {
+        margin: 0 8px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        
+        &:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    }
+
+    span {
+        margin: 0 16px;
+    }
+`
+
 interface Photo {
     albumId: string,
     id: string,
@@ -45,9 +73,12 @@ interface Photo {
     title: string,
     url: string
 }
+
 function Album() {
     const location = useLocation()
     const { Photo, toggleModal } = useModal()
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 10
     let locationArray = location.pathname.split('/').filter(item => item.length !== 0)
     let albumId = locationArray.length === 2 ? locationArray[1] : locationArray[locationArray.length - 2]
     let photoId = locationArray.length > 2 ? locationArray[locationArray.length - 1] : ''
@@ -63,31 +94,44 @@ function Album() {
             console.error('Failed to fetch photos:', error)
         }
     }
-    const { data: photos, isSuccess } = useQuery({ queryKey: ['photos'], queryFn: getPhotos })
+    const { data, isLoading, isError, isSuccess } = useQuery({ queryKey: ['albums'], queryFn: getPhotos })
     useEffect(() => {
         if (photoId && isSuccess) {
-            const photo = photos?.find((item: Photo) => Number(item.id) === Number(photoId))
+            const photo = data?.find((item: Photo) => Number(item.id) === Number(photoId))
             if (photo) {
                 toggleModal(photo.url)
             } else {
                 console.log('No photo with this id')
             }
         }
-    }, [photoId, isSuccess, photos])
-
+    }, [photoId, isSuccess, data])
+    if (!data || !isSuccess) return <p>Loading...</p>
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    const paginatedPhotos = data.slice(startIndex, endIndex)
+    const totalPages = Math.ceil(data.length / itemsPerPage)
     return (
         <>
             <GridContainer>
-                {photos?.map((photo: Photo) => (
+                {paginatedPhotos.map((photo: Photo) => (
                     <PhotoCard onClick={() => toggleModal(photo.url)} key={photo.id}>
                         <PhotoImage src={photo.url} />
                         <PhotoTitle>{photo.title}</PhotoTitle>
                     </PhotoCard>
                 ))}
             </GridContainer>
+            <Pagination>
+                <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+                    Previous
+                </button>
+                <span>Page {currentPage} of {totalPages}</span>
+                <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}>
+                    Next
+                </button>
+            </Pagination>
             <Photo />
         </>
     )
 }
 
-export default Album
+export default Album;
