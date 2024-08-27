@@ -1,6 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
+import Photo from "../hooks/useModal";
+import useModal from "../hooks/useModal";
 
 
 const GridContainer = styled.div`
@@ -48,8 +50,8 @@ interface Photo{
 }
 
 function Album() {
-    const location = useLocation();
-    
+    const location = useLocation()
+    const {Photo, toggleModal} = useModal()
     async function getPhotos() {
         try {
             const response = await fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${location.pathname.split('/').at(-1)}`);
@@ -64,14 +66,17 @@ function Album() {
     }
     const photos = useQuery({ queryKey: ['photos'], queryFn: getPhotos });
     return (
-        <GridContainer>
-            {photos.data?.map((photo : Photo) => (
-                <PhotoCard key={photo.id}>
-                    <PhotoImage src={photo.url} />
-                    <PhotoTitle>{photo.title}</PhotoTitle>
-                </PhotoCard>
-            ))}
-        </GridContainer>
+        <>
+            <GridContainer>
+                {photos.data?.map((photo : Photo) => (
+                    <PhotoCard onClick={() => toggleModal('Hey!')} key={photo.id}>
+                        <PhotoImage src={photo.url} />
+                        <PhotoTitle>{photo.title}</PhotoTitle>
+                    </PhotoCard>
+                ))}
+            </GridContainer>
+            <Photo />
+        </>
     );
 }
 
