@@ -63,9 +63,10 @@ function useModal(){
           document.getElementById('portal')!
         )
       }
-      function toggleModal(content : string){
+      function toggleModal(data : [], photoId : string, url: string){
+        console.log(data)
         openModal()
-        setContent(content)
+        setContent(url)
       }
       function Photo () {
         if (!isModalOpen) return null;
