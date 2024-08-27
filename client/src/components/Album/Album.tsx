@@ -69,6 +69,8 @@ function Album() {
             const photo = photos?.find((item: Photo) => Number(item.id) === Number(photoId))
             if (photo) {
                 toggleModal(photo.url)
+            } else {
+                console.log('No photo with this id')
             }
         }
     }, [photoId, isSuccess, photos])
