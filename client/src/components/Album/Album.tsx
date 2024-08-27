@@ -71,7 +71,7 @@ function Album() {
                 toggleModal(photo.url)
             }
         }
-    }, [photoId, isSuccess, photos, toggleModal])
+    }, [photoId, isSuccess, photos])
 
     return (
         <>
