@@ -1,17 +1,16 @@
-import { useLocation } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import styled from "styled-components";
-import Photo from "../hooks/useModal";
-import useModal from "../hooks/useModal";
-
+import { useLocation } from "react-router-dom"
+import { useEffect } from "react"
+import { useQuery } from "@tanstack/react-query"
+import styled from "styled-components"
+import Photo from "../hooks/useModal"
+import useModal from "../hooks/useModal"
 
 const GridContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
     gap: 16px;
     padding: 16px;
-`;
-
+`
 const PhotoCard = styled.div`
     display: flex;
     flex-direction: column;
@@ -28,54 +27,56 @@ const PhotoCard = styled.div`
     &:hover {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     }
-`;
+`
 
 const PhotoImage = styled.img`
     width: 100%;
     height: 150px; 
     object-fit: cover; 
     border-radius: 4px;
-`;
-
+`
 const PhotoTitle = styled.p`
     margin: 16px 0 0; 
-`;
-
-interface Photo{
+`
+interface Photo {
     albumId: string,
     id: string,
     thumbnailUrl: string,
     title: string,
     url: string
 }
-
 function Album() {
     const location = useLocation()
-    const {Photo, toggleModal} = useModal()
-    let locationArray = location.pathname.split('/').filter((item) => item.length !== 0)
-    let albumId = ''
-    if(locationArray.length === 2){
-        albumId = locationArray[locationArray.length - 1]
-    } else {
-        albumId = locationArray[locationArray.length - 2]
-    }
+    const { Photo, toggleModal } = useModal()
+    let locationArray = location.pathname.split('/').filter(item => item.length !== 0)
+    let albumId = locationArray.length === 2 ? locationArray[1] : locationArray[locationArray.length - 2]
+    let photoId = locationArray.length > 2 ? locationArray[locationArray.length - 1] : ''
     async function getPhotos() {
         try {
-            const response = await fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`);
+            const response = await fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`)
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`)
             }
-            const data = await response.json();
-            return data;
+            const data = await response.json()
+            return data
         } catch (error) {
-            console.error('Failed to fetch photos:', error);
+            console.error('Failed to fetch photos:', error)
         }
     }
-    const photos = useQuery({ queryKey: ['photos'], queryFn: getPhotos });
+    const { data: photos, isSuccess } = useQuery({ queryKey: ['photos'], queryFn: getPhotos })
+    useEffect(() => {
+        if (photoId && isSuccess) {
+            const photo = photos?.find((item: Photo) => Number(item.id) === Number(photoId))
+            if (photo) {
+                toggleModal(photo.url)
+            }
+        }
+    }, [photoId, isSuccess, photos, toggleModal])
+
     return (
         <>
             <GridContainer>
-                {photos.data?.map((photo : Photo) => (
+                {photos?.map((photo: Photo) => (
                     <PhotoCard onClick={() => toggleModal(photo.url)} key={photo.id}>
                         <PhotoImage src={photo.url} />
                         <PhotoTitle>{photo.title}</PhotoTitle>
@@ -84,7 +85,7 @@ function Album() {
             </GridContainer>
             <Photo />
         </>
-    );
+    )
 }
 
-export default Album;
+export default Album
