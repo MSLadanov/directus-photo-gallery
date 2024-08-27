@@ -52,9 +52,16 @@ interface Photo{
 function Album() {
     const location = useLocation()
     const {Photo, toggleModal} = useModal()
+    let locationArray = location.pathname.split('/').filter((item) => item.length !== 0)
+    let albumId = ''
+    if(locationArray.length === 2){
+        albumId = locationArray[locationArray.length - 1]
+    } else {
+        albumId = locationArray[locationArray.length - 2]
+    }
     async function getPhotos() {
         try {
-            const response = await fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${location.pathname.split('/').at(-1)}`);
+            const response = await fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
