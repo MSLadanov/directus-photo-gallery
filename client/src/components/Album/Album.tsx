@@ -99,7 +99,7 @@ function Album() {
         if (photoId && isSuccess) {
             const photo = data?.find((item: Photo) => Number(item.id) === Number(photoId))
             if (photo) {
-                toggleModal(paginatedPhotos, photo.id, photo.url)
+                toggleModal(paginatedPhotos, photo.id)
             } else {
                 console.log('No photo with this id')
             }
@@ -114,7 +114,7 @@ function Album() {
         <>
             <GridContainer>
                 {paginatedPhotos.map((photo: Photo) => (
-                    <PhotoCard onClick={() => toggleModal(paginatedPhotos, photo.id, photo.url)} key={photo.id}>
+                    <PhotoCard onClick={() => toggleModal(paginatedPhotos, photo.id)} key={photo.id}>
                         <PhotoImage src={photo.url} />
                         <PhotoTitle>{photo.title}</PhotoTitle>
                     </PhotoCard>
