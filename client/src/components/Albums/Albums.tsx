@@ -86,7 +86,16 @@ function Albums() {
         }
     }
     const { data, isLoading, isError, isSuccess } = useQuery({ queryKey: ['albums'], queryFn: getAlbums })
-
+    // async function fetchAlbums () {
+    //     try {
+    //         const response = await fetch('http://localhost/directus/items/albums');
+    //         const data = await response.json()
+    //         return data
+    //     } catch (error) {
+    //       console.error('Error fetching albums', error);
+    //     }
+    //   };
+    // console.log(fetchAlbums())
     if (isLoading) return <p>Loading...</p>
     if (isError) return <p>Error loading albums</p>
     const startIndex = (currentPage - 1) * itemsPerPage
