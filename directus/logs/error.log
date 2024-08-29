@@ -1,0 +1,26 @@
+2024/08/29 19:13:32 [notice] 1#1: using the "epoll" event method
+2024/08/29 19:13:32 [notice] 1#1: nginx/1.27.1
+2024/08/29 19:13:32 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14) 
+2024/08/29 19:13:32 [notice] 1#1: OS: Linux 6.10.0-linuxkit
+2024/08/29 19:13:32 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2024/08/29 19:13:32 [notice] 1#1: start worker processes
+2024/08/29 19:13:32 [notice] 1#1: start worker process 22
+2024/08/29 19:13:32 [error] 22#22: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.65.1, server: , request: "GET /ws HTTP/1.1", upstream: "http://172.19.0.2:3000/ws", host: "localhost:3000"
+2024/08/29 19:13:32 [error] 22#22: *1 open() "/usr/share/nginx/html/502.html" failed (2: No such file or directory), client: 192.168.65.1, server: , request: "GET /ws HTTP/1.1", upstream: "http://172.19.0.2:3000/ws", host: "localhost:3000"
+2024/08/29 19:13:32 [info] 22#22: *1 client 192.168.65.1 closed keepalive connection
+2024/08/29 19:14:05 [info] 22#22: *5 client sent invalid request while reading client request line, client: 192.168.65.1, server: , request: "GET /%PUBLIC_URL%/favicon.ico HTTP/1.1"
+2024/08/29 19:14:05 [notice] 22#22: *11 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/08/29 19:14:05 [notice] 22#22: *11 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/08/29 19:14:05 [info] 22#22: *16 client sent invalid request while reading client request line, client: 192.168.65.1, server: , request: "GET /%PUBLIC_URL%/manifest.json HTTP/1.1"
+2024/08/29 19:14:10 [notice] 22#22: *11 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/08/29 19:14:10 [notice] 22#22: *11 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/08/29 19:14:12 [info] 22#22: *21 client sent invalid request while reading client request line, client: 192.168.65.1, server: , request: "GET /%PUBLIC_URL%/favicon.ico HTTP/1.1"
+2024/08/29 19:14:12 [notice] 22#22: *7 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/08/29 19:14:12 [notice] 22#22: *7 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/08/29 19:14:12 [info] 22#22: *26 client sent invalid request while reading client request line, client: 192.168.65.1, server: , request: "GET /%PUBLIC_URL%/manifest.json HTTP/1.1"
+2024/08/29 19:14:13 [notice] 22#22: *11 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/08/29 19:14:13 [notice] 22#22: *11 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/08/29 19:14:13 [info] 22#22: *30 client sent invalid request while reading client request line, client: 192.168.65.1, server: , request: "GET /%PUBLIC_URL%/favicon.ico HTTP/1.1"
+2024/08/29 19:14:13 [info] 22#22: *35 client sent invalid request while reading client request line, client: 192.168.65.1, server: , request: "GET /%PUBLIC_URL%/manifest.json HTTP/1.1"
+2024/08/29 19:14:24 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2024/08/29 19:14:24 [notice] 22#22: gracefully shutting down
