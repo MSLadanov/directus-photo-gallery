@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 
@@ -35,16 +36,9 @@ const CloseButton = styled.button`
   }
 `
 
-const Card = styled.div`
-  cursor: pointer;
-  width: 200px;
-  height: 200px;
-  overflow: hidden;
-`
-
 const Image = styled.img`
   width: 100%;
-  height: 100%;
+  max-height: 70vh;
 `
 
 const Pagination = styled.div`
@@ -75,52 +69,78 @@ const Pagination = styled.div`
 
 interface Photo {
   id: string;
-  url: string;
+  image: string;
+  title: string;
+  description: string;
+  album_id: string;
 }
 
 function useModal() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [photos, setPhotos] = useState<Photo[]>([])
-  const [currentIndex, setCurrentIndex] = useState(0) 
+  const [currentPhotoId, setCurrentPhotoId] = useState<string | null>(null)
+  const [albumId, setAlbumId] = useState('') 
+  const navigate = useNavigate()
+
   function openModal() {
     setIsModalOpen(true)
   }
+
   function closeModal() {
     setIsModalOpen(false)
   }
+
   function handlePrevious() {
-    setCurrentIndex((prev) => Math.max(prev - 1, 0))
+    if (currentPhotoId) {
+      const currentIndex = photos.findIndex(photo => photo.id === currentPhotoId)
+      if (currentIndex > 0) {
+        const previousPhotoId = photos[currentIndex - 1].id
+        navigate(`/albums/${albumId}/${previousPhotoId}`)
+        setCurrentPhotoId(previousPhotoId)
+      }
+    }
   }
+
   function handleNext() {
-    setCurrentIndex((prev) => Math.min(prev + 1, photos.length - 1))
+    if (currentPhotoId) {
+      const currentIndex = photos.findIndex(photo => photo.id === currentPhotoId)
+      if (currentIndex < photos.length - 1) {
+        const nextPhotoId = photos[currentIndex + 1].id
+        navigate(`/albums/${albumId}/${nextPhotoId}`)
+        setCurrentPhotoId(nextPhotoId)
+      }
+    }
   }
+
   function PhotoModal({ onClose }: { onClose: () => void }) {
-    if (photos.length === 0) return null
-    const currentPhoto = photos[currentIndex]
+    if (photos.length === 0 || !currentPhotoId) return null
+    const currentPhoto = photos.find(photo => photo.id === currentPhotoId)!
     return ReactDOM.createPortal(
       <ModalOverlay>
         <ModalContent>
-          <Image src={currentPhoto.url} alt="Photo" />
+          <Image src={`/directus/assets/${currentPhoto.image}`} alt="Photo" />
+          <div>{currentPhoto.title}</div>
+          <div>{currentPhoto.description}</div>
           <Pagination>
-            <button onClick={handlePrevious} disabled={currentIndex === 0}>
+            <button onClick={handlePrevious} disabled={photos.findIndex(photo => photo.id === currentPhotoId) === 0}>
               Previous
             </button>
-            <span>{currentIndex + 1} of {photos.length}</span>
-            <button onClick={handleNext} disabled={currentIndex === photos.length - 1}>
+            <span>{photos.findIndex(photo => photo.id === currentPhotoId) + 1} of {photos.length}</span>
+            <button onClick={handleNext} disabled={photos.findIndex(photo => photo.id === currentPhotoId) === photos.length - 1}>
               Next
             </button>
+            <CloseButton onClick={() => { onClose(); navigate(`/albums/${albumId}`); }}>Close</CloseButton>
           </Pagination>
-          <CloseButton onClick={onClose}>Close</CloseButton>
         </ModalContent>
       </ModalOverlay>,
       document.getElementById('portal')!
     )
   }
 
-  function toggleModal(data: Photo[], photoId: string) {
-    const initialIndex = data.findIndex(photo => photo.id === photoId)
+  function toggleModal(data: Photo[], photoId: string, albumId: string) {
     setPhotos([...data])
-    setCurrentIndex(initialIndex)
+    setAlbumId(albumId)
+    setCurrentPhotoId(photoId)
     openModal()
   }
 
@@ -132,4 +152,4 @@ function useModal() {
   return { Photo, toggleModal }
 }
 
-export default useModal;
+export default useModal

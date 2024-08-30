@@ -7,9 +7,10 @@ import useModal from "../hooks/useModal"
 
 const GridContainer = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 15px;
     padding: 16px;
+    justify-content: center; 
 `
 
 const PhotoCard = styled.div`
@@ -22,6 +23,7 @@ const PhotoCard = styled.div`
     padding: 16px;
     background-color: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: auto;
     height: 300px;
     box-sizing: border-box;
     
@@ -33,7 +35,7 @@ const PhotoCard = styled.div`
 const PhotoImage = styled.img`
     width: 100%;
     height: 150px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 4px;
 `
 
@@ -67,11 +69,11 @@ const Pagination = styled.div`
 `
 
 interface Photo {
-    albumId: string;
+    album_id: string;
     id: string;
-    thumbnailUrl: string;
+    description: string;
     title: string;
-    url: string;
+    image: string;
 }
 
 function Album() {
@@ -84,34 +86,36 @@ function Album() {
     let locationArray = location.pathname.split('/').filter(item => item.length !== 0)
     let albumId = locationArray.length === 2 ? locationArray[1] : locationArray[locationArray.length - 2]
     let photoId = locationArray.length > 2 ? locationArray[locationArray.length - 1] : ''
-    async function getPhotos() {
+    
+    async function fetchPhotos() {
         try {
-            const response = await fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`)
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`)
-            }
+            const response = await fetch(`/directus/items/photos?filter[album_id][_eq]=${albumId}`)
             const data = await response.json()
-            return data
+            return data.data
         } catch (error) {
-            console.error('Failed to fetch photos:', error);
+            console.error('Error fetching photos', error)
             return []
         }
     }
+
     const { data, isLoading, isError, isSuccess } = useQuery({
-        queryKey: ['albums', albumId],
-        queryFn: getPhotos
+        queryKey: ['photos', albumId],
+        queryFn: fetchPhotos
     })
+
     useEffect(() => {
         if (photoId && isSuccess) {
             const photo = data.find((item: Photo) => Number(item.id) === Number(photoId))
             if (photo) {
                 setPhotoToShow(photo)
+                navigate(`/albums/${albumId}/${photo.id}`)
             } else {
                 console.log('No photo with this id')
-                navigate('/not-found')
+                // navigate('/not-found')
             }
         }
     }, [photoId, isSuccess, data, navigate])
+
     useEffect(() => {
         if (photoToShow) {
             const photoIndex = data.indexOf(photoToShow);
@@ -120,22 +124,31 @@ function Album() {
                 setCurrentPage(page)
             }
             const paginatedPhotos = data.slice((page - 1) * itemsPerPage, page * itemsPerPage)
-            toggleModal(paginatedPhotos, photoToShow.id)
+            toggleModal(paginatedPhotos, photoToShow.id, albumId)
         }
     }, [photoToShow])
+
     if (isLoading) return <p>Loading...</p>
     if (isError) return <p>Error loading photos.</p>
     if (!data || !isSuccess) return <p>No photos found.</p>
+
     const startIndex = (currentPage - 1) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
     const paginatedPhotos = data.slice(startIndex, endIndex)
     const totalPages = Math.ceil(data.length / itemsPerPage)
+
     return (
         <>
             <GridContainer>
                 {paginatedPhotos.map((photo: Photo) => (
-                    <PhotoCard onClick={() => toggleModal(paginatedPhotos, photo.id)} key={photo.id}>
-                        <PhotoImage src={photo.url} />
+                    <PhotoCard
+                        onClick={() => {
+                            toggleModal(paginatedPhotos, photo.id, albumId)
+                            navigate(`/albums/${albumId}/${photo.id}`)
+                        }}
+                        key={photo.id}
+                    >
+                        <PhotoImage src={`/directus/assets/${photo.image}?fit=cover&height=150&quality=75`} />
                         <PhotoTitle>{photo.title}</PhotoTitle>
                     </PhotoCard>
                 ))}
