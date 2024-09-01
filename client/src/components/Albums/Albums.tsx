@@ -74,11 +74,17 @@ interface Album {
 }
 
 const Albums : React.FC = observer(() =>  {
-    const { albums, fetchStateAlbums, isLoading, error, setCurrentAlbumId } = albumStore
+    const { albums, fetchStateAlbums, isLoading, isError, setCurrentAlbumId } = albumStore
     let location = useLocation()
     let path = location.pathname.endsWith('/') ? location.pathname.slice(0, -1) : location.pathname
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 10
+    // useEffect(() => {
+    //     console.log(isError, 'error')
+    //     console.log(isLoading, 'loading')
+    //     console.log(toJS(isError), 'error')
+    //     console.log(toJS(isLoading), 'loading')
+    // }, [isError, isLoading])
     // if (isLoading) return <p>Loading...</p>
     // if (error) return <p>Error loading albums</p>
     const startIndex = (currentPage - 1) * itemsPerPage

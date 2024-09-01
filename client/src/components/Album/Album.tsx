@@ -87,7 +87,7 @@ interface Album {
 }
 
 const Album : React.FC = observer(() => {
-    const {albums, getCurrentAlbumId, setCurrentAlbumId, photos, fetchStatePhotos, fetchStateAlbums} = albumStore
+    const {albums, getCurrentAlbumId, setCurrentAlbumId, photos, fetchStatePhotos, fetchStateAlbums, isError, isLoading} = albumStore
     const {togglePopup, Popup} = usePopup()
     const location = useLocation()
     const navigate = useNavigate()
@@ -99,40 +99,44 @@ const Album : React.FC = observer(() => {
     let locationArray = location.pathname.split('/').filter(item => item.length !== 0)
     let albumId = locationArray.length === 2 ? locationArray[1] : locationArray[locationArray.length - 2]
     let photoId = locationArray.length > 2 ? locationArray[locationArray.length - 1] : ''
-    
     useEffect(() => {
-        if(!getCurrentAlbumId()){
-            setCurrentAlbumId(albumId)
-        }
+        setCurrentAlbumId(albumId)
         fetchStateAlbums()
         fetchStatePhotos()
     },[])
 
     useEffect(() => {
-        const album = toJS(albums).find((item: Album) => Number(item.id) === Number(albumId))
-        if(!album){
-            setIsAlbumExist(false)
-            togglePopup('No album with this id', 'error')
-            setTimeout(() => {
-                navigate(`/albums/`)
-            }, 3000);
-        }
-    }, [albums, navigate])
+        console.log(isError, 'error')
+        console.log(isLoading, 'loading')
+    }, [])
+
+    // useEffect(() => {
+    //     let album = toJS(albums).find((item: Album) => Number(item.id) === Number(albumId))
+    //     console.log({album, isLoading, isError})
+    //     if(!album){
+    //         setIsAlbumExist(false)
+    //         togglePopup('No album with this id', 'error')
+    //         setTimeout(() => {
+    //             navigate(`/albums/`)
+    //         }, 3000);
+    //     }
+    // }, [albums])
 
     useEffect(() => {
-        if (photoId) {
-            const photo = photos.find((item: Photo) => Number(item.id) === Number(photoId))
+        if (!isLoading && photos.length > 0 && photoId) {
+            const photo = photos.find((item: Photo) => Number(item.id) === Number(photoId));
+            console.log(photo)
             if (photo) {
-                setPhotoToShow(photo)
-                navigate(`/albums/${albumId}/${photo.id}`)
+                setPhotoToShow(photo);
+                navigate(`/albums/${albumId}/${photo.id}`);
             } else {
-                togglePopup('No photo with this id', 'error')
+                togglePopup('No photo with this id', 'error');
                 setTimeout(() => {
-                    navigate(`/albums/${albumId}/`)
+                    navigate(`/albums/${albumId}/`);
                 }, 3000);
             }
         }
-    }, [photoId, photos, navigate])
+    }, [photoId, photos, isLoading]);
 
     useEffect(() => {
         if (photoToShow) {
