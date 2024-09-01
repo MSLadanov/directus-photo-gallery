@@ -183,7 +183,7 @@ const Album: React.FC = observer(() => {
       {isAlbumExist && (
         <>
           {isLoading && <Loader />}
-          <GridContainer>
+          {!isLoading &&<GridContainer>
             {paginatedPhotos.map((photo: Photo) => (
               <PhotoCard
                 onClick={() => {
@@ -198,7 +198,7 @@ const Album: React.FC = observer(() => {
                 <PhotoTitle>{photo.title}</PhotoTitle>
               </PhotoCard>
             ))}
-          </GridContainer>
+          </GridContainer>}
           {photos && !isLoading && (
             <Pagination>
               <button

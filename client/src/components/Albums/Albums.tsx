@@ -93,7 +93,7 @@ const Albums: React.FC = observer(() => {
   return (
     <div>
       {isLoading && <Loader />}
-      <GridContainer>
+      {!isLoading && <GridContainer>
         {paginatedData.map((album: Album) => (
           <Link to={`${path}/${album.id}`} key={album.id}>
             <AlbumCard onClick={() => setCurrentAlbumId(album.id)}>
@@ -104,7 +104,7 @@ const Albums: React.FC = observer(() => {
             </AlbumCard>
           </Link>
         ))}
-      </GridContainer>
+      </GridContainer>}
       {albums && !isLoading && (
         <Pagination>
           <button
