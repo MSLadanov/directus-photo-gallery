@@ -6,6 +6,7 @@ import useModal from "../hooks/useModal"
 import { observer } from "mobx-react-lite"
 import albumStore from "../../store/AlbumStore"
 import { toJS } from "mobx"
+import usePopup from "../hooks/usePopup"
 
 const GridContainer = styled.div`
     display: grid;
@@ -87,11 +88,13 @@ interface Album {
 
 const Album : React.FC = observer(() => {
     const {albums, getCurrentAlbumId, setCurrentAlbumId, photos, fetchStatePhotos, fetchStateAlbums} = albumStore
+    const {togglePopup, Popup} = usePopup()
     const location = useLocation()
     const navigate = useNavigate()
     const { Photo, toggleModal } = useModal()
     const [currentPage, setCurrentPage] = useState(1)
     const [photoToShow, setPhotoToShow] = useState<Photo | null>(null)
+    const [isAlbumExist, setIsAlbumExist] = useState(true)
     const itemsPerPage = 10
     let locationArray = location.pathname.split('/').filter(item => item.length !== 0)
     let albumId = locationArray.length === 2 ? locationArray[1] : locationArray[locationArray.length - 2]
@@ -108,8 +111,11 @@ const Album : React.FC = observer(() => {
     useEffect(() => {
         const album = toJS(albums).find((item: Album) => Number(item.id) === Number(albumId))
         if(!album){
-            console.log('No album with this id')
-            navigate(`/albums/`)
+            setIsAlbumExist(false)
+            togglePopup('No album with this id', 'error')
+            setTimeout(() => {
+                navigate(`/albums/`)
+            }, 3000);
         }
     }, [albums, navigate])
 
@@ -120,8 +126,10 @@ const Album : React.FC = observer(() => {
                 setPhotoToShow(photo)
                 navigate(`/albums/${albumId}/${photo.id}`)
             } else {
-                console.log('No photo with this id')
-                navigate(`/albums/${albumId}/`)
+                togglePopup('No photo with this id', 'error')
+                setTimeout(() => {
+                    navigate(`/albums/${albumId}/`)
+                }, 3000);
             }
         }
     }, [photoId, photos, navigate])
@@ -149,30 +157,31 @@ const Album : React.FC = observer(() => {
 
     return (
         <>
-            <GridContainer>
-                {paginatedPhotos.map((photo: Photo) => (
-                    <PhotoCard
-                        onClick={() => {
-                            toggleModal(paginatedPhotos, photo.id, albumId)
-                            navigate(`/albums/${albumId}/${photo.id}`)
-                        }}
-                        key={photo.id}
-                    >
-                        <PhotoImage src={`/directus/assets/${photo.image}?fit=cover&height=150&quality=75`} />
-                        <PhotoTitle>{photo.title}</PhotoTitle>
-                    </PhotoCard>
-                ))}
-            </GridContainer>
-            <Pagination>
-                <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
-                    Previous
-                </button>
-                <span>Page {currentPage} of {totalPages}</span>
-                <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}>
-                    Next
-                </button>
-            </Pagination>
+            {isAlbumExist &&
+             <><GridContainer>
+                    {paginatedPhotos.map((photo: Photo) => (
+                        <PhotoCard
+                            onClick={() => {
+                                toggleModal(paginatedPhotos, photo.id, albumId)
+                                navigate(`/albums/${albumId}/${photo.id}`)
+                            } }
+                            key={photo.id}
+                        >
+                            <PhotoImage src={`/directus/assets/${photo.image}?fit=cover&height=150&quality=75`} />
+                            <PhotoTitle>{photo.title}</PhotoTitle>
+                        </PhotoCard>
+                    ))}
+                </GridContainer><Pagination>
+                        <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+                            Previous
+                        </button>
+                        <span>Page {currentPage} of {totalPages}</span>
+                        <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}>
+                            Next
+                        </button>
+                    </Pagination></> }
             <Photo />
+            <Popup />
         </>
     )
 })
