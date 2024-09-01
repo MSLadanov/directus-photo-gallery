@@ -11,6 +11,14 @@ interface Response<T> {
     data: T[];
   }
 
+interface Photo {
+    album_id: string;
+    id: string;
+    description: string;
+    title: string;
+    image: string;
+}
+
 class AlbumStore {
     albums : Album[] = [];
     currentAlbumId : null | string= null;
