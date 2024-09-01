@@ -8,9 +8,11 @@ interface Album {
 }
 
 interface Photo {
-    id: string;
     album_id: string;
-    url: string;
+    id: string;
+    description: string;
+    title: string;
+    image: string;
 }
 
 class AlbumStore {

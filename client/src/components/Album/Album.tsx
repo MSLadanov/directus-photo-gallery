@@ -6,6 +6,7 @@ import Photo from "../hooks/useModal"
 import useModal from "../hooks/useModal"
 import { observer } from "mobx-react-lite"
 import albumStore from "../../store/AlbumStore"
+import { toJS } from "mobx"
 
 const GridContainer = styled.div`
     display: grid;
@@ -79,8 +80,7 @@ interface Photo {
 }
 
 const Album : React.FC = observer(() => {
-    const {getCurrentAlbumId} = albumStore
-    console.log(getCurrentAlbumId())
+    const {getCurrentAlbumId, setCurrentAlbumId, photos, fetchStatePhotos} = albumStore
     const location = useLocation()
     const navigate = useNavigate()
     const { Photo, toggleModal } = useModal()
@@ -91,55 +91,46 @@ const Album : React.FC = observer(() => {
     let albumId = locationArray.length === 2 ? locationArray[1] : locationArray[locationArray.length - 2]
     let photoId = locationArray.length > 2 ? locationArray[locationArray.length - 1] : ''
     
-    async function fetchPhotos() {
-        try {
-            const response = await fetch(`/directus/items/photos?filter[album_id][_eq]=${albumId}`)
-            const data = await response.json()
-            return data.data
-        } catch (error) {
-            console.error('Error fetching photos', error)
-            return []
+    useEffect(() => {
+        if(!getCurrentAlbumId()){
+            setCurrentAlbumId(albumId)
         }
-    }
-
-    const { data, isLoading, isError, isSuccess } = useQuery({
-        queryKey: ['photos', albumId],
-        queryFn: fetchPhotos
-    })
+        fetchStatePhotos()
+    },[])
 
     useEffect(() => {
-        if (photoId && isSuccess) {
-            const photo = data.find((item: Photo) => Number(item.id) === Number(photoId))
+        if (photoId) {
+            const photo = photos.find((item: Photo) => Number(item.id) === Number(photoId))
             if (photo) {
                 setPhotoToShow(photo)
                 navigate(`/albums/${albumId}/${photo.id}`)
             } else {
                 console.log('No photo with this id')
-                // navigate('/not-found')
+                navigate(`/albums/${albumId}/`)
             }
         }
-    }, [photoId, isSuccess, data, navigate])
+    }, [photoId, photos, navigate])
 
     useEffect(() => {
         if (photoToShow) {
-            const photoIndex = data.indexOf(photoToShow);
+            const photoIndex = photos.indexOf(photoToShow);
             const page = Math.ceil((photoIndex + 1) / itemsPerPage)
             if (page !== currentPage) {
                 setCurrentPage(page)
             }
-            const paginatedPhotos = data.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            const paginatedPhotos = photos.slice((page - 1) * itemsPerPage, page * itemsPerPage)
             toggleModal(paginatedPhotos, photoToShow.id, albumId)
         }
     }, [photoToShow])
 
-    if (isLoading) return <p>Loading...</p>
-    if (isError) return <p>Error loading photos.</p>
-    if (!data || !isSuccess) return <p>No photos found.</p>
+    // if (isLoading) return <p>Loading...</p>
+    // if (isError) return <p>Error loading photos.</p>
+    // if (!data || !isSuccess) return <p>No photos found.</p>
 
     const startIndex = (currentPage - 1) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
-    const paginatedPhotos = data.slice(startIndex, endIndex)
-    const totalPages = Math.ceil(data.length / itemsPerPage)
+    const paginatedPhotos = toJS(photos).slice(startIndex, endIndex)
+    const totalPages = Math.ceil(toJS(photos).length / itemsPerPage)
 
     return (
         <>
