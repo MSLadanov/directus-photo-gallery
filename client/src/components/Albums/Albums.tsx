@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { useQuery } from "@tanstack/react-query"
 import { Link, useLocation } from "react-router-dom"
 import styled from "styled-components"
 import { observer } from "mobx-react-lite"
@@ -80,20 +79,6 @@ const Albums : React.FC = observer(() =>  {
     let path = location.pathname.endsWith('/') ? location.pathname.slice(0, -1) : location.pathname
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 10
-    // const { data, isLoading, isError } = useQuery({
-    //     queryKey: ['albums'],
-    //     queryFn: fetchAlbums
-    // })
-    async function fetchAlbums() {
-        try {
-            const response = await fetch('/directus/items/albums')
-            const data = await response.json()
-            return data.data
-        } catch (error) {
-            console.error('Error fetching albums', error)
-            return []
-        }
-    }
     // if (isLoading) return <p>Loading...</p>
     // if (error) return <p>Error loading albums</p>
     const startIndex = (currentPage - 1) * itemsPerPage

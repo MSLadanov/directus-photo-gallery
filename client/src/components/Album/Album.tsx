@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { useQuery } from "@tanstack/react-query"
 import styled from "styled-components"
 import Photo from "../hooks/useModal"
 import useModal from "../hooks/useModal"
@@ -79,8 +78,15 @@ interface Photo {
     image: string;
 }
 
+interface Album {
+    id: string;
+    title: string;
+    album_cover: string;
+    description: string
+}
+
 const Album : React.FC = observer(() => {
-    const {getCurrentAlbumId, setCurrentAlbumId, photos, fetchStatePhotos} = albumStore
+    const {albums, getCurrentAlbumId, setCurrentAlbumId, photos, fetchStatePhotos, fetchStateAlbums} = albumStore
     const location = useLocation()
     const navigate = useNavigate()
     const { Photo, toggleModal } = useModal()
@@ -95,8 +101,17 @@ const Album : React.FC = observer(() => {
         if(!getCurrentAlbumId()){
             setCurrentAlbumId(albumId)
         }
+        fetchStateAlbums()
         fetchStatePhotos()
     },[])
+
+    useEffect(() => {
+        const album = toJS(albums).find((item: Album) => Number(item.id) === Number(albumId))
+        if(!album){
+            console.log('No album with this id')
+            navigate(`/albums/`)
+        }
+    }, [albums, navigate])
 
     useEffect(() => {
         if (photoId) {
