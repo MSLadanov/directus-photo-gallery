@@ -1,62 +1,70 @@
-2024/08/30 19:56:32 [notice] 1#1: using the "epoll" event method
-2024/08/30 19:56:32 [notice] 1#1: nginx/1.27.1
-2024/08/30 19:56:32 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14) 
-2024/08/30 19:56:32 [notice] 1#1: OS: Linux 6.10.0-linuxkit
-2024/08/30 19:56:32 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
-2024/08/30 19:56:32 [notice] 1#1: start worker processes
-2024/08/30 19:56:32 [notice] 1#1: start worker process 22
-2024/08/30 19:56:33 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:56:33 [notice] 22#22: *1 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:56:33 [error] 22#22: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", upstream: "http://172.19.0.3:8055/items/albums", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:56:33 [error] 22#22: *1 open() "/usr/share/nginx/html/502.html" failed (2: No such file or directory), client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", upstream: "http://172.19.0.3:8055/items/albums", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:56:35 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:56:35 [notice] 22#22: *1 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:56:35 [error] 22#22: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", upstream: "http://172.19.0.3:8055/items/albums", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:56:35 [error] 22#22: *1 open() "/usr/share/nginx/html/502.html" failed (2: No such file or directory), client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", upstream: "http://172.19.0.3:8055/items/albums", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:57:46 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/users/me", client: 192.168.65.1, server: , request: "GET /directus/users/me?fields=id HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/directus/admin/content/photos"
-2024/08/30 19:57:46 [notice] 22#22: *1 rewritten data: "/users/me", args: "fields=id", client: 192.168.65.1, server: , request: "GET /directus/users/me?fields=id HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/directus/admin/content/photos"
-2024/08/30 19:57:58 [notice] 22#22: *20 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
-2024/08/30 19:57:58 [notice] 22#22: *20 rewritten data: "/items/photos", args: "filter[album_id][_eq]=1", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
-2024/08/30 19:57:58 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:57:58 [notice] 22#22: *1 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:58:12 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
-2024/08/30 19:58:12 [notice] 22#22: *1 rewritten data: "/items/photos", args: "filter[album_id][_eq]=1", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
-2024/08/30 19:58:23 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:58:23 [notice] 22#22: *1 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:58:26 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
-2024/08/30 19:58:26 [notice] 22#22: *1 rewritten data: "/items/photos", args: "filter[album_id][_eq]=2", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
-2024/08/30 19:58:49 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/users/me", client: 192.168.65.1, server: , request: "GET /directus/users/me?fields=id HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/directus/admin/content/photos"
-2024/08/30 19:58:49 [notice] 22#22: *1 rewritten data: "/users/me", args: "fields=id", client: 192.168.65.1, server: , request: "GET /directus/users/me?fields=id HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/directus/admin/content/photos"
-2024/08/30 19:59:38 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2/4"
-2024/08/30 19:59:38 [notice] 22#22: *1 rewritten data: "/items/photos", args: "filter[album_id][_eq]=2", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2/4"
-2024/08/30 19:59:44 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:59:44 [notice] 22#22: *1 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/30 19:59:56 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
-2024/08/30 19:59:56 [notice] 22#22: *1 rewritten data: "/items/photos", args: "filter[album_id][_eq]=2", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
-2024/08/30 20:01:37 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
-2024/08/30 20:01:37 [notice] 22#22: gracefully shutting down
-2024/08/31 08:01:31 [notice] 1#1: using the "epoll" event method
-2024/08/31 08:01:31 [notice] 1#1: nginx/1.27.1
-2024/08/31 08:01:31 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14) 
-2024/08/31 08:01:31 [notice] 1#1: OS: Linux 6.10.0-linuxkit
-2024/08/31 08:01:31 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
-2024/08/31 08:01:31 [notice] 1#1: start worker processes
-2024/08/31 08:01:31 [notice] 1#1: start worker process 22
-2024/08/31 08:01:43 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2/4"
-2024/08/31 08:01:43 [notice] 22#22: *1 rewritten data: "/items/photos", args: "filter[album_id][_eq]=2", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2/4"
-2024/08/31 08:01:49 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2/4"
-2024/08/31 08:01:49 [notice] 22#22: *1 rewritten data: "/items/photos", args: "filter[album_id][_eq]=2", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2/4"
-2024/08/31 08:01:50 [notice] 22#22: *4 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2/4"
-2024/08/31 08:01:50 [notice] 22#22: *4 rewritten data: "/items/photos", args: "filter[album_id][_eq]=2", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2/4"
-2024/08/31 08:02:27 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/31 08:02:27 [notice] 22#22: *1 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
-2024/08/31 08:02:36 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2/4"
-2024/08/31 08:02:36 [notice] 22#22: *1 rewritten data: "/items/photos", args: "filter[album_id][_eq]=2", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2/4"
-2024/08/31 08:03:45 [notice] 22#22: *1 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
-2024/08/31 08:03:45 [notice] 22#22: *1 rewritten data: "/items/photos", args: "filter[album_id][_eq]=2", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
-2024/08/31 08:07:22 [notice] 22#22: *36 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
-2024/08/31 08:07:22 [notice] 22#22: *36 rewritten data: "/items/photos", args: "filter[album_id][_eq]=2", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
-2024/08/31 08:15:27 [notice] 22#22: *36 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
-2024/08/31 08:15:27 [notice] 22#22: *36 rewritten data: "/items/photos", args: "filter[album_id][_eq]=2", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
-2024/08/31 08:15:35 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
-2024/08/31 08:15:35 [notice] 22#22: gracefully shutting down
+2024/09/01 17:17:54 [notice] 1#1: using the "epoll" event method
+2024/09/01 17:17:54 [notice] 1#1: nginx/1.27.1
+2024/09/01 17:17:54 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14) 
+2024/09/01 17:17:54 [notice] 1#1: OS: Linux 6.10.0-linuxkit
+2024/09/01 17:17:54 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2024/09/01 17:17:54 [notice] 1#1: start worker processes
+2024/09/01 17:17:54 [notice] 1#1: start worker process 29
+2024/09/01 17:18:06 [notice] 29#29: *1 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:18:06 [notice] 29#29: *1 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:18:12 [notice] 29#29: *1 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
+2024/09/01 17:18:12 [notice] 29#29: *1 rewritten data: "/items/photos", args: "filter[album_id][_eq]=1", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
+2024/09/01 17:18:19 [notice] 29#29: *1 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:18:19 [notice] 29#29: *1 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:18:20 [notice] 29#29: *6 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:18:20 [notice] 29#29: *6 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:23:12 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2024/09/01 17:23:12 [notice] 29#29: gracefully shutting down
+2024/09/01 17:23:43 [notice] 1#1: using the "epoll" event method
+2024/09/01 17:23:43 [notice] 1#1: nginx/1.27.1
+2024/09/01 17:23:43 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14) 
+2024/09/01 17:23:43 [notice] 1#1: OS: Linux 6.10.0-linuxkit
+2024/09/01 17:23:43 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2024/09/01 17:23:43 [notice] 1#1: start worker processes
+2024/09/01 17:23:43 [notice] 1#1: start worker process 21
+2024/09/01 17:23:52 [notice] 21#21: *2 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:23:52 [notice] 21#21: *2 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:24:27 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2024/09/01 17:24:27 [notice] 21#21: gracefully shutting down
+2024/09/01 17:24:54 [notice] 1#1: using the "epoll" event method
+2024/09/01 17:24:54 [notice] 1#1: nginx/1.27.1
+2024/09/01 17:24:54 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14) 
+2024/09/01 17:24:54 [notice] 1#1: OS: Linux 6.10.0-linuxkit
+2024/09/01 17:24:54 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2024/09/01 17:24:54 [notice] 1#1: start worker processes
+2024/09/01 17:24:54 [notice] 1#1: start worker process 22
+2024/09/01 17:25:03 [notice] 22#22: *4 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:25:03 [notice] 22#22: *4 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:25:11 [notice] 22#22: *15 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:25:11 [notice] 22#22: *15 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:35:07 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2024/09/01 17:35:07 [notice] 22#22: gracefully shutting down
+2024/09/01 17:38:09 [notice] 1#1: using the "epoll" event method
+2024/09/01 17:38:09 [notice] 1#1: nginx/1.27.1
+2024/09/01 17:38:09 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14) 
+2024/09/01 17:38:09 [notice] 1#1: OS: Linux 6.10.0-linuxkit
+2024/09/01 17:38:09 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2024/09/01 17:38:09 [notice] 1#1: start worker processes
+2024/09/01 17:38:09 [notice] 1#1: start worker process 21
+2024/09/01 17:38:23 [notice] 21#21: *1 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:38:23 [notice] 21#21: *1 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:38:27 [notice] 21#21: *1 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
+2024/09/01 17:38:27 [notice] 21#21: *1 rewritten data: "/items/photos", args: "filter[album_id][_eq]=2", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
+2024/09/01 17:38:32 [notice] 21#21: *1 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:38:32 [notice] 21#21: *1 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:38:33 [notice] 21#21: *1 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
+2024/09/01 17:38:33 [notice] 21#21: *1 rewritten data: "/items/photos", args: "filter[album_id][_eq]=1", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
+2024/09/01 17:38:35 [notice] 21#21: *2 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
+2024/09/01 17:38:35 [notice] 21#21: *2 rewritten data: "/items/photos", args: "filter[album_id][_eq]=1", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
+2024/09/01 17:39:07 [notice] 21#21: *2 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
+2024/09/01 17:39:07 [notice] 21#21: *2 rewritten data: "/items/photos", args: "filter[album_id][_eq]=1", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
+2024/09/01 17:39:41 [notice] 21#21: *2 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
+2024/09/01 17:39:41 [notice] 21#21: *2 rewritten data: "/items/photos", args: "filter[album_id][_eq]=1", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=1 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/1"
+2024/09/01 17:39:44 [notice] 21#21: *2 "/directus/(.*)" matches "/directus/items/albums", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:39:44 [notice] 21#21: *2 rewritten data: "/items/albums", args: "", client: 192.168.65.1, server: , request: "GET /directus/items/albums HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums"
+2024/09/01 17:39:46 [notice] 21#21: *2 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
+2024/09/01 17:39:46 [notice] 21#21: *2 rewritten data: "/items/photos", args: "filter[album_id][_eq]=2", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
+2024/09/01 17:39:48 [notice] 21#21: *1 "/directus/(.*)" matches "/directus/items/photos", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
+2024/09/01 17:39:48 [notice] 21#21: *1 rewritten data: "/items/photos", args: "filter[album_id][_eq]=2", client: 192.168.65.1, server: , request: "GET /directus/items/photos?filter[album_id][_eq]=2 HTTP/1.1", host: "localhost:3000", referrer: "http://localhost:3000/albums/2"
+2024/09/01 17:40:47 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2024/09/01 17:40:47 [notice] 21#21: gracefully shutting down

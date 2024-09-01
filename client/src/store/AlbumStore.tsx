@@ -4,6 +4,7 @@ interface Album {
     id: string;
     title: string;
     album_cover: string;
+    description: string
 }
 
 interface Photo {
@@ -23,27 +24,51 @@ class AlbumStore {
         makeAutoObservable(this);
     }
 
-    fetchStateAlbums = async (): Promise<void> => {
-        this.isLoading = true;
+    // fetchStateAlbums = async (): Promise<void> => {
+    //     this.isLoading = true;
+    //     try {
+    //         const response = await fetch('/directus/items/albums');
+    //         const data = await response.json();
+    //         runInAction(() => {
+    //             this.albums = data.data || [];
+    //             this.error = null;
+    //         });
+    //     } catch (error) {
+    //         const err = error as Error;
+    //         runInAction(() => {
+    //             this.error = 'Error fetching albums';
+    //         });
+    //         console.error('Error fetching albums', err);
+    //     } finally {
+    //         runInAction(() => {
+    //             this.isLoading = false;
+    //         });
+    //     }
+    // };
+
+    fetchStateAlbums = async () => {
         try {
-            const response = await fetch('/directus/items/albums');
-            const data = await response.json();
-            runInAction(() => {
-                this.albums = data.data || [];
-                this.error = null;
-            });
+          runInAction(() => {
+            this.isLoading = true;
+            this.error = '';
+          });
+          const response = await fetch(
+            `/directus/items/albums`
+          );
+          const data = await response.json();
+          runInAction(() => {
+            this.albums = data.data;
+          });
         } catch (error) {
-            const err = error as Error;
-            runInAction(() => {
-                this.error = 'Error fetching albums';
-            });
-            console.error('Error fetching albums', err);
-        } finally {
-            runInAction(() => {
-                this.isLoading = false;
-            });
+          runInAction(() => {
+            this.error = 'AlbumError';
+          });
+          console.error(error);
         }
-    };
+        runInAction(() => {
+          this.isLoading = false;
+        });
+      };
 
     fetchStatePhotos = async (): Promise<void> => {
         const currentAlbumId = this.currentAlbumId;
@@ -71,10 +96,14 @@ class AlbumStore {
             });
         }
     };
-
-    setCurrentAlbum = (id: string): void => {
+    setCurrentAlbumId = (id: string): void => {
+      runInAction(() => {
         this.currentAlbumId = id;
+    });
     };
+    getCurrentAlbumId = () => {
+      return this.currentAlbumId
+    }
 }
 
 const albumStore = new AlbumStore();

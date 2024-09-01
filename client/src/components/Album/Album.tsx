@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query"
 import styled from "styled-components"
 import Photo from "../hooks/useModal"
 import useModal from "../hooks/useModal"
+import { observer } from "mobx-react-lite"
+import albumStore from "../../store/AlbumStore"
 
 const GridContainer = styled.div`
     display: grid;
@@ -76,7 +78,9 @@ interface Photo {
     image: string;
 }
 
-function Album() {
+const Album : React.FC = observer(() => {
+    const {getCurrentAlbumId} = albumStore
+    console.log(getCurrentAlbumId())
     const location = useLocation()
     const navigate = useNavigate()
     const { Photo, toggleModal } = useModal()
@@ -165,6 +169,6 @@ function Album() {
             <Photo />
         </>
     )
-}
+})
 
 export default Album

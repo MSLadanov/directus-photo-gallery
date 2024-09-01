@@ -2,8 +2,9 @@ import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Link, useLocation } from "react-router-dom"
 import styled from "styled-components"
-import { observer } from "mobx-react"
+import { observer } from "mobx-react-lite"
 import albumStore from "../../store/AlbumStore"
+import { toJS } from "mobx"
 
 const GridContainer = styled.div`
     display: grid;
@@ -74,15 +75,15 @@ interface Album {
 }
 
 const Albums : React.FC = observer(() =>  {
-    const { albums, fetchStateAlbums } = albumStore
+    const { albums, fetchStateAlbums, isLoading, error, setCurrentAlbumId } = albumStore
     let location = useLocation()
     let path = location.pathname.endsWith('/') ? location.pathname.slice(0, -1) : location.pathname
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 10
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ['albums'],
-        queryFn: fetchAlbums
-    })
+    // const { data, isLoading, isError } = useQuery({
+    //     queryKey: ['albums'],
+    //     queryFn: fetchAlbums
+    // })
     async function fetchAlbums() {
         try {
             const response = await fetch('/directus/items/albums')
@@ -93,24 +94,21 @@ const Albums : React.FC = observer(() =>  {
             return []
         }
     }
-
-    if (isLoading) return <p>Loading...</p>
-    if (isError) return <p>Error loading albums</p>
-
+    // if (isLoading) return <p>Loading...</p>
+    // if (error) return <p>Error loading albums</p>
     const startIndex = (currentPage - 1) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
-    const paginatedData = data!.slice(startIndex, endIndex)
-    const totalPages = Math.ceil(data!.length / itemsPerPage)
+    const paginatedData = toJS(albums!).slice(startIndex, endIndex)
+    const totalPages = Math.ceil(toJS(albums!).length / itemsPerPage)
     useEffect(() => {
         fetchStateAlbums()
-    })
-    console.log(albums)
+    }, [])
     return (
         <div>
             <GridContainer>
                 {paginatedData.map((album: Album) => (
                     <Link to={`${path}/${album.id}`} key={album.id}>
-                        <AlbumCard>
+                        <AlbumCard onClick={() => setCurrentAlbumId(album.id)}>
                             <AlbumImage src={`/directus/assets/${album.album_cover}?fit=cover&height=150&quality=75`} />
                             <AlbumTitle>{album.title}</AlbumTitle>
                         </AlbumCard>
