@@ -1,7 +1,9 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Link, useLocation } from "react-router-dom"
 import styled from "styled-components"
+import { observer } from "mobx-react"
+import albumStore from "../../store/AlbumStore"
 
 const GridContainer = styled.div`
     display: grid;
@@ -71,7 +73,8 @@ interface Album {
     album_cover: string
 }
 
-function Albums() {
+const Albums : React.FC = observer(() =>  {
+    const { albums, fetchStateAlbums } = albumStore
     let location = useLocation()
     let path = location.pathname.endsWith('/') ? location.pathname.slice(0, -1) : location.pathname
     const [currentPage, setCurrentPage] = useState(1)
@@ -80,7 +83,6 @@ function Albums() {
         queryKey: ['albums'],
         queryFn: fetchAlbums
     })
-
     async function fetchAlbums() {
         try {
             const response = await fetch('/directus/items/albums')
@@ -99,7 +101,10 @@ function Albums() {
     const endIndex = startIndex + itemsPerPage
     const paginatedData = data!.slice(startIndex, endIndex)
     const totalPages = Math.ceil(data!.length / itemsPerPage)
-
+    useEffect(() => {
+        fetchStateAlbums()
+    })
+    console.log(albums)
     return (
         <div>
             <GridContainer>
@@ -123,6 +128,6 @@ function Albums() {
             </Pagination>
         </div>
     )
-}
+})
 
 export default Albums
