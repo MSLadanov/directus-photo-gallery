@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { observer } from "mobx-react-lite"
 import albumStore from "../../store/AlbumStore"
 import { toJS } from "mobx"
+import Loader from "../Loader/Loader"
 
 const GridContainer = styled.div`
     display: grid;
@@ -96,6 +97,7 @@ const Albums : React.FC = observer(() =>  {
     }, [])
     return (
         <div>
+            { isLoading && <Loader />}
             <GridContainer>
                 {paginatedData.map((album: Album) => (
                     <Link to={`${path}/${album.id}`} key={album.id}>
@@ -106,7 +108,7 @@ const Albums : React.FC = observer(() =>  {
                     </Link>
                 ))}
             </GridContainer>
-            <Pagination>
+            {albums && !isLoading && <Pagination>
                 <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
                     Previous
                 </button>
@@ -114,7 +116,7 @@ const Albums : React.FC = observer(() =>  {
                 <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}>
                     Next
                 </button>
-            </Pagination>
+            </Pagination>}
         </div>
     )
 })

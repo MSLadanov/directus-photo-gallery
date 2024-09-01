@@ -7,6 +7,7 @@ import { observer } from "mobx-react-lite"
 import albumStore from "../../store/AlbumStore"
 import { toJS } from "mobx"
 import usePopup from "../hooks/usePopup"
+import Loader from "../Loader/Loader"
 
 const GridContainer = styled.div`
     display: grid;
@@ -110,22 +111,22 @@ const Album : React.FC = observer(() => {
         console.log(isLoading, 'loading')
     }, [])
 
-    // useEffect(() => {
-    //     let album = toJS(albums).find((item: Album) => Number(item.id) === Number(albumId))
-    //     console.log({album, isLoading, isError})
-    //     if(!album){
-    //         setIsAlbumExist(false)
-    //         togglePopup('No album with this id', 'error')
-    //         setTimeout(() => {
-    //             navigate(`/albums/`)
-    //         }, 3000);
-    //     }
-    // }, [albums])
+    useEffect(() => {
+        if(!isLoading && albums.length > 0 && albumId){
+            let album = toJS(albums).find((item: Album) => Number(item.id) === Number(albumId))
+            if(!album){
+                setIsAlbumExist(false)
+                togglePopup('No album with this id. Redirect...', 'error')
+                setTimeout(() => {
+                navigate(`/albums`)
+                }, 3000);
+            }
+        }
+    }, [albumId, albums, isLoading])
 
     useEffect(() => {
         if (!isLoading && photos.length > 0 && photoId) {
             const photo = photos.find((item: Photo) => Number(item.id) === Number(photoId));
-            console.log(photo)
             if (photo) {
                 setPhotoToShow(photo);
                 navigate(`/albums/${albumId}/${photo.id}`);
@@ -162,7 +163,9 @@ const Album : React.FC = observer(() => {
     return (
         <>
             {isAlbumExist &&
-             <><GridContainer>
+             <>
+             {isLoading && <Loader/>}
+             <GridContainer>
                     {paginatedPhotos.map((photo: Photo) => (
                         <PhotoCard
                             onClick={() => {
@@ -175,7 +178,8 @@ const Album : React.FC = observer(() => {
                             <PhotoTitle>{photo.title}</PhotoTitle>
                         </PhotoCard>
                     ))}
-                </GridContainer><Pagination>
+                </GridContainer>
+                {photos && !isLoading &&<Pagination>
                         <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
                             Previous
                         </button>
@@ -183,7 +187,7 @@ const Album : React.FC = observer(() => {
                         <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}>
                             Next
                         </button>
-                    </Pagination></> }
+                    </Pagination>}</> }
             <Photo />
             <Popup />
         </>
