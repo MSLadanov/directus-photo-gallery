@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 interface Album {
     id: string,
@@ -24,6 +24,7 @@ class AlbumStore {
     currentAlbumId : null | string= null;
     isLoading : boolean = false;
     error : string | null= null;
+    photos : Photo [] = []
 
     constructor() {
         makeAutoObservable(this);
@@ -33,9 +34,24 @@ class AlbumStore {
         try {
             const response = await fetch('/directus/items/albums')
             const data : Response<Album> = await response.json()
-            return data.data
+            runInAction(() => {
+                this.albums = data.data;
+              });
         } catch (error) {
             console.error('Error fetching albums', error)
+            return []
+        }
+    }
+
+    fetchPhotos = async () => {
+        try {
+            const response = await fetch(`/directus/items/photos?filter[album_id][_eq]=${this.currentAlbumId}`)
+            const data = await response.json()
+            runInAction(() => {
+                this.photos = data.data
+            })
+        } catch (error) {
+            console.error('Error fetching photos', error)
             return []
         }
     }
