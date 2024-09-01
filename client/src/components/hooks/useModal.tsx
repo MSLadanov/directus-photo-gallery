@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import ReactDOM from 'react-dom'
-import styled from 'styled-components'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ReactDOM from "react-dom";
+import styled from "styled-components";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -13,14 +13,14 @@ const ModalOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const ModalContent = styled.div`
   background: white;
   padding: 20px;
   border-radius: 4px;
   position: relative;
-`
+`;
 
 const CloseButton = styled.button`
   margin-top: 10px;
@@ -30,23 +30,23 @@ const CloseButton = styled.button`
   background-color: #007bff;
   color: white;
   cursor: pointer;
-  
+
   &:hover {
     background-color: #0056b3;
   }
-`
+`;
 
 const Image = styled.img`
   width: 100%;
   max-height: 70vh;
-`
+`;
 
 const Pagination = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 16px 0;
-  
+
   button {
     margin: 0 8px;
     padding: 8px 16px;
@@ -55,7 +55,7 @@ const Pagination = styled.div`
     background-color: #007bff;
     color: white;
     cursor: pointer;
-    
+
     &:disabled {
       background-color: #ccc;
       cursor: not-allowed;
@@ -65,7 +65,7 @@ const Pagination = styled.div`
   span {
     margin: 0 16px;
   }
-`
+`;
 
 interface Photo {
   id: string;
@@ -76,45 +76,49 @@ interface Photo {
 }
 
 function useModal() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [photos, setPhotos] = useState<Photo[]>([])
-  const [currentPhotoId, setCurrentPhotoId] = useState<string | null>(null)
-  const [albumId, setAlbumId] = useState('') 
-  const navigate = useNavigate()
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [currentPhotoId, setCurrentPhotoId] = useState<string | null>(null);
+  const [albumId, setAlbumId] = useState("");
+  const navigate = useNavigate();
 
   function openModal() {
-    setIsModalOpen(true)
+    setIsModalOpen(true);
   }
 
   function closeModal() {
-    setIsModalOpen(false)
+    setIsModalOpen(false);
   }
 
   function handlePrevious() {
     if (currentPhotoId) {
-      const currentIndex = photos.findIndex(photo => photo.id === currentPhotoId)
+      const currentIndex = photos.findIndex(
+        (photo) => photo.id === currentPhotoId
+      );
       if (currentIndex > 0) {
-        const previousPhotoId = photos[currentIndex - 1].id
-        navigate(`/albums/${albumId}/${previousPhotoId}`)
-        setCurrentPhotoId(previousPhotoId)
+        const previousPhotoId = photos[currentIndex - 1].id;
+        navigate(`/albums/${albumId}/${previousPhotoId}`);
+        setCurrentPhotoId(previousPhotoId);
       }
     }
   }
 
   function handleNext() {
     if (currentPhotoId) {
-      const currentIndex = photos.findIndex(photo => photo.id === currentPhotoId)
+      const currentIndex = photos.findIndex(
+        (photo) => photo.id === currentPhotoId
+      );
       if (currentIndex < photos.length - 1) {
-        const nextPhotoId = photos[currentIndex + 1].id
-        navigate(`/albums/${albumId}/${nextPhotoId}`)
-        setCurrentPhotoId(nextPhotoId)
+        const nextPhotoId = photos[currentIndex + 1].id;
+        navigate(`/albums/${albumId}/${nextPhotoId}`);
+        setCurrentPhotoId(nextPhotoId);
       }
     }
   }
 
   function PhotoModal({ onClose }: { onClose: () => void }) {
-    if (photos.length === 0 || !currentPhotoId) return null
-    const currentPhoto = photos.find(photo => photo.id === currentPhotoId)!
+    if (photos.length === 0 || !currentPhotoId) return null;
+    const currentPhoto = photos.find((photo) => photo.id === currentPhotoId)!;
     return ReactDOM.createPortal(
       <ModalOverlay>
         <ModalContent>
@@ -122,34 +126,55 @@ function useModal() {
           <div>{currentPhoto.title}</div>
           <div>{currentPhoto.description}</div>
           <Pagination>
-            <button onClick={handlePrevious} disabled={photos.findIndex(photo => photo.id === currentPhotoId) === 0}>
+            <button
+              onClick={handlePrevious}
+              disabled={
+                photos.findIndex((photo) => photo.id === currentPhotoId) === 0
+              }
+            >
               Previous
             </button>
-            <span>{photos.findIndex(photo => photo.id === currentPhotoId) + 1} of {photos.length}</span>
-            <button onClick={handleNext} disabled={photos.findIndex(photo => photo.id === currentPhotoId) === photos.length - 1}>
+            <span>
+              {photos.findIndex((photo) => photo.id === currentPhotoId) + 1} of{" "}
+              {photos.length}
+            </span>
+            <button
+              onClick={handleNext}
+              disabled={
+                photos.findIndex((photo) => photo.id === currentPhotoId) ===
+                photos.length - 1
+              }
+            >
               Next
             </button>
-            <CloseButton onClick={() => { onClose(); navigate(`/albums/${albumId}`); }}>Close</CloseButton>
+            <CloseButton
+              onClick={() => {
+                onClose();
+                navigate(`/albums/${albumId}`);
+              }}
+            >
+              Close
+            </CloseButton>
           </Pagination>
         </ModalContent>
       </ModalOverlay>,
-      document.getElementById('portal')!
-    )
+      document.getElementById("portal")!
+    );
   }
 
   function toggleModal(data: Photo[], photoId: string, albumId: string) {
-    setPhotos([...data])
-    setAlbumId(albumId)
-    setCurrentPhotoId(photoId)
-    openModal()
+    setPhotos([...data]);
+    setAlbumId(albumId);
+    setCurrentPhotoId(photoId);
+    openModal();
   }
 
   function Photo() {
-    if (!isModalOpen) return null
-    return <PhotoModal onClose={closeModal} />
+    if (!isModalOpen) return null;
+    return <PhotoModal onClose={closeModal} />;
   }
 
-  return { Photo, toggleModal }
+  return { Photo, toggleModal };
 }
 
-export default useModal
+export default useModal;

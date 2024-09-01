@@ -1,52 +1,49 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import { Navigate } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ErrorRoute from './components/ErrorRoute/ErrorRoute';
-import Albums from './components/Albums/Albums';
-import Album from './components/Album/Album';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ErrorRoute from "./components/ErrorRoute/ErrorRoute";
+import Albums from "./components/Albums/Albums";
+import Album from "./components/Album/Album";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
     errorElement: <ErrorRoute />,
-    children:[
+    children: [
       {
         path: "/",
         element: <Navigate to="/albums" />,
       },
       {
-        path:'albums/',
-        element: <Albums />
+        path: "albums/",
+        element: <Albums />,
       },
       {
-        path:'albums/:albumId',
-        element: <Album />
+        path: "albums/:albumId",
+        element: <Album />,
       },
       {
-        path:'albums/:albumId/:photoId',
-        element: <Album />
+        path: "albums/:albumId/:photoId",
+        element: <Album />,
       },
-    ]
+    ],
   },
 ]);
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </QueryClientProvider>
   </React.StrictMode>
 );

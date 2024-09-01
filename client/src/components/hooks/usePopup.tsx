@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import ReactDOM from 'react-dom';
-import styled, { keyframes } from 'styled-components';
+import { useState } from "react";
+import ReactDOM from "react-dom";
+import styled, { keyframes } from "styled-components";
 
 const slideIn = keyframes`
   from {
@@ -41,22 +41,23 @@ const StyledPopup = styled.div<{ isVisible: boolean; bgColor: string }>`
   color: #000;
   text-align: center;
   overflow: none;
-  animation: ${({ isVisible }) => (isVisible ? slideIn : slideOut)} 0.5s ease-in-out forwards;
+  animation: ${({ isVisible }) => (isVisible ? slideIn : slideOut)} 0.5s
+    ease-in-out forwards;
 `;
 
 function usePopup() {
   const colors = {
-    error: 'rgba(255, 205, 210, 0.8)',
-    warning: 'rgba(255, 243, 205, 0.8)',
-    success: 'rgba(200, 230, 201, 0.8)',
+    error: "rgba(255, 205, 210, 0.8)",
+    warning: "rgba(255, 243, 205, 0.8)",
+    success: "rgba(200, 230, 201, 0.8)",
   };
 
   const [showPopup, setShowPopup] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [message, setMessage] = useState('');
-  const [type, setType] = useState<'success' | 'warning' | 'error'>('success');
+  const [message, setMessage] = useState("");
+  const [type, setType] = useState<"success" | "warning" | "error">("success");
 
-  function togglePopup(message: string, type: 'success' | 'warning' | 'error') {
+  function togglePopup(message: string, type: "success" | "warning" | "error") {
     setMessage(message);
     setType(type);
     setIsMounted(true);
@@ -66,8 +67,8 @@ function usePopup() {
       setShowPopup(false);
       setTimeout(() => {
         setIsMounted(false);
-      }, 500); 
-    }, 3000); 
+      }, 500);
+    }, 3000);
   }
 
   function Popup() {
@@ -77,7 +78,7 @@ function usePopup() {
       <StyledPopup bgColor={colors[type]} isVisible={showPopup}>
         <p>{message}</p>
       </StyledPopup>,
-      document.getElementById('popup')!
+      document.getElementById("popup")!
     );
   }
 
