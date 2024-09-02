@@ -21,7 +21,7 @@
       <pre><code>git clone https://github.com/MSLadanov/directus-photo-gallery</code></pre>
   </li>
   <li><strong>Перейдите в директорию Directus:</strong>
-      <pre><code>cd photo-gallery/directus</code></pre>
+      <pre><code>cd directus-photo-gallery/directus</code></pre>
   </li>
     <li><strong>Запустите Docker-контейнеры:</strong>
         <pre><code>docker compose up</code></pre>
