@@ -29,4 +29,9 @@ Directus (версия 9 или выше)
 Backend: Directus,
 Frontend: React, Typescript, MobX, styled-components, Webpack, React Router DOM v6 и прекрасная иконочка в лого от Font Awesome.
 
-
+Галерея альбомов:
+<img width="638" alt="Albums" src="https://github.com/user-attachments/assets/13ee3724-e5d0-46cb-949d-a6623caa0461">
+Галерея фотографий:
+<img width="638" alt="Photos" src="https://github.com/user-attachments/assets/8bfe38c5-3a0e-4f8f-bbef-7c73fc6a7461">
+Модальное окно с фотографией:
+<img width="638" alt="Modal" src="https://github.com/user-attachments/assets/391765a7-4206-4fca-b81d-7d10d70c63fb">
